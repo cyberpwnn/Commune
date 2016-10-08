@@ -62,29 +62,32 @@ public class DropperController extends ConfigurableController
 			return;
 		}
 		
-		if(dropQueue.containsKey(e.getPlayer()) && dropQueue.get(e.getPlayer()) == e.getPlayer().getInventory().getHeldItemSlot())
+		if(e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType().toString().endsWith("_PICKAXE"))
 		{
-			dropQueue.remove(e.getPlayer());
-		}
-		
-		else
-		{
-			dropQueue.put(e.getPlayer(), e.getPlayer().getInventory().getHeldItemSlot());
-			e.getPlayer().sendMessage(F.color(doubleMessage));
-			e.setCancelled(true);
-			FinalInteger fi = new FinalInteger(e.getPlayer().getInventory().getHeldItemSlot());
-			
-			new TaskLater(resetDelay)
+			if(dropQueue.containsKey(e.getPlayer()) && dropQueue.get(e.getPlayer()) == e.getPlayer().getInventory().getHeldItemSlot())
 			{
-				@Override
-				public void run()
+				dropQueue.remove(e.getPlayer());
+			}
+			
+			else
+			{
+				dropQueue.put(e.getPlayer(), e.getPlayer().getInventory().getHeldItemSlot());
+				e.getPlayer().sendMessage(F.color(doubleMessage));
+				e.setCancelled(true);
+				FinalInteger fi = new FinalInteger(e.getPlayer().getInventory().getHeldItemSlot());
+				
+				new TaskLater(resetDelay)
 				{
-					if(dropQueue.containsKey(e.getPlayer()) && dropQueue.get(e.getPlayer()) == fi.get())
+					@Override
+					public void run()
 					{
-						dropQueue.remove(e.getPlayer());
+						if(dropQueue.containsKey(e.getPlayer()) && dropQueue.get(e.getPlayer()) == fi.get())
+						{
+							dropQueue.remove(e.getPlayer());
+						}
 					}
-				}
-			};
+				};
+			}
 		}
 	}
 	
