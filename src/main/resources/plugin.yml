@@ -1,0 +1,7 @@
+name: Commune
+main: org.cyberpwn.commune.Commune
+version: ${project.version}
+depend: [Phantom, PlaceholderAPI, Vault]
+commands: 
+  papyrus:
+    aliases: [pap, paper]
