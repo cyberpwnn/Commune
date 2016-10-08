@@ -100,8 +100,8 @@
 			<url>http://repo.md-5.net/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>releases</id>
-			<url>http://nexus.cyberpwn.org/content/groups/public/</url>
+			<id>phantom</id>
+			<url>https://raw.githubusercontent.com/PhantomAPI/Phantom/master/repository/</url>
 		</repository>
 		<repository>
 			<id>vault-repo</id>
