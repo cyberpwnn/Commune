@@ -295,7 +295,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void on(BlockBreakEvent e)
 	{
 		if(!handleSpawners)
