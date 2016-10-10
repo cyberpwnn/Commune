@@ -77,6 +77,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 	private SuggestionController suggestionController;
 	private CombatController combatController;
 	private DropperController dropperController;
+	private WorldGuardBlockHandler wgbh;
 	
 	private GList<Player> warm;
 	private GMap<Player, Long> ms;
@@ -198,6 +199,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		dropperController = new DropperController(this);
 		suggestionController = new SuggestionController(this);
 		cannonFix = new CannonFix(this);
+		wgbh = new WorldGuardBlockHandler();
 		combatController = new CombatController(this, "combat-tagger");
 		muted = false;
 		warm = new GList<Player>();
@@ -492,12 +494,16 @@ public class CommuneController extends Controller implements Configurable, Probe
 	public void onStart()
 	{
 		loadCluster(this);
+		
+		wgbh = new WorldGuardBlockHandler();
+		
+		Phantom.instance().getBlockCheckController().registerBlockHandler(wgbh);
 	}
 	
 	@Override
 	public void onStop()
 	{
-		
+		Phantom.instance().getBlockCheckController().unRegisterBlockHandler(wgbh);
 	}
 	
 	@Override
