@@ -100,6 +100,10 @@
 			<url>http://repo.md-5.net/content/groups/public/</url>
 		</repository>
 		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
 			<id>phantom</id>
 			<url>https://raw.githubusercontent.com/PhantomAPI/Phantom/master/repository/</url>
 		</repository>
