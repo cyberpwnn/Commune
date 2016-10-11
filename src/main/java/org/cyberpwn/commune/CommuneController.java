@@ -262,7 +262,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 					
 					for(Block j : W.blockFaces(c.getBlock()))
 					{
-						if(j.getType().equals(Material.AIR) || j.isLiquid())
+						if(j.getType().equals(Material.AIR))
 						{
 							k++;
 						}
@@ -427,7 +427,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		
 		return message;
 	}
-
+	
 	@EventHandler
 	public void on(ProjectileLaunchEvent e)
 	{
@@ -455,7 +455,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 					
 					if(M.ms() - itimes.get(p.getUniqueId()).get(i.split(";")[0]) < seconds * 1000)
 					{
-						String left = F.f(((seconds * 1000) - ((M.ms() - itimes.get(p.getUniqueId()).get(i.split(";")[0])))) / 1000, 2);
+						String left = F.f((seconds * 1000 - (M.ms() - itimes.get(p.getUniqueId()).get(i.split(";")[0]))) / 1000, 2);
 						p.sendMessage(F.color("&8&l(&8&l!&8&l) &4You have to wait " + left + "s to use " + mb.getMaterial().toString().toLowerCase().replaceAll("_", " ") + "s" + " again!"));
 						e.setCancelled(true);
 						p.getInventory().addItem(new ItemStack(Material.ENDER_PEARL));
@@ -559,7 +559,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 					
 					if(M.ms() - itimes.get(p.getUniqueId()).get(i.split(";")[0]) < seconds * 1000)
 					{
-						String left = F.f(((seconds * 1000) - ((M.ms() - itimes.get(p.getUniqueId()).get(i.split(";")[0])))) / 1000, 2);
+						String left = F.f((seconds * 1000 - (M.ms() - itimes.get(p.getUniqueId()).get(i.split(";")[0]))) / 1000, 2);
 						p.sendMessage(F.color("&8&l(&8&l!&8&l) &4You have to wait " + left + "s to use " + mb.getMaterial().toString().toLowerCase().replaceAll("_", " ") + "s" + " again!"));
 						e.setCancelled(true);
 					}
@@ -600,7 +600,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 				
 				if(M.ms() - ctimes.get(p.getUniqueId()).get(i.split(";")[0]) < seconds * 1000)
 				{
-					String left = F.f(((seconds * 1000) - ((M.ms() - ctimes.get(p.getUniqueId()).get(i.split(";")[0])))) / 1000, 2);
+					String left = F.f((seconds * 1000 - (M.ms() - ctimes.get(p.getUniqueId()).get(i.split(";")[0]))) / 1000, 2);
 					p.sendMessage(F.color("&8&l(&8&l!&8&l) &4You have to wait " + left + "s to use " + mb.getMaterial().toString().toLowerCase().replaceAll("_", " ") + "s" + " again!"));
 					e.setCancelled(true);
 				}
@@ -654,7 +654,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 					
 					if(M.ms() - times.get(p.getUniqueId()).get(cmdx) < seconds * 1000)
 					{
-						String left = F.f(((seconds * 1000) - ((M.ms() - times.get(p.getUniqueId()).get(cmdx)))) / 1000, 2);
+						String left = F.f((seconds * 1000 - (M.ms() - times.get(p.getUniqueId()).get(cmdx))) / 1000, 2);
 						p.sendMessage(F.color("&8&l(&8&l!&8&l) &4You have to wait " + left + "s to use " + test + " again!"));
 						return true;
 					}
@@ -840,7 +840,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 			else if(M.ms() - ms.get(e.getPlayer()) < chatDelay * 1000)
 			{
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(F.color("&8&l(&4&l!&8&l) &4You need to wait " + F.f(((chatDelay * 1000) - ((M.ms() - ms.get(e.getPlayer())))) / 1000, 2) + "s to chat again!"));
+				e.getPlayer().sendMessage(F.color("&8&l(&4&l!&8&l) &4You need to wait " + F.f((chatDelay * 1000 - (M.ms() - ms.get(e.getPlayer()))) / 1000, 2) + "s to chat again!"));
 			}
 			
 			else
@@ -1517,7 +1517,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 	{
 		this.muted = muted;
 	}
-
+	
 	@Override
 	public DataCluster onProbe(Block block, DataCluster probeSet)
 	{
