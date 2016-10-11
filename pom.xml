@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cyberpwn</groupId>
 	<artifactId>commune</artifactId>
-	<version>7.5</version>
+	<version>7.6</version>
 	<name>Commune</name>
 	<description>Community enhancements and more</description>
 	<properties>
