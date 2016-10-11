@@ -19,15 +19,18 @@ public class Commune extends PhantomPlugin
 	public static Economy economy;
 	private CommuneController communeController;
 	private ImageMaps im;
+	private AFKController afk;
 	
 	@Override
 	public void enable()
 	{
 		Phantom.instance().getTestController();
 		
+		afk = new AFKController(this);
 		communeController = new CommuneController(this);
 		
 		register(communeController);
+		register(afk);
 		
 		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 		
