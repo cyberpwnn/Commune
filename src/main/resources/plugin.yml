@@ -5,3 +5,5 @@ depend: [Phantom, PlaceholderAPI, Vault]
 commands: 
   papyrus:
     aliases: [pap, paper]
+  frtp:
+    aliases: [wild, rtp, randomtp]
