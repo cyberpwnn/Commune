@@ -147,7 +147,7 @@ public class RTPController extends Controller implements Configurable
 	{
 		// Get a random location, and make it simulate a fall (to find the
 		// surface block)
-		return W.simulateFall(c.getBlock((int) (Math.random() * 15), 255, (int) (Math.random() * 15)).getLocation());
+		return W.simulateFall(c.getBlock((int) (Math.random() * 15), 250, (int) (Math.random() * 15)).getLocation());
 	}
 	
 	public void findChunk(Player p, final World w, final Callback<Chunk> chunkCallback)
