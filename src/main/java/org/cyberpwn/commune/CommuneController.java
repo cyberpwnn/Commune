@@ -268,7 +268,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 						}
 					}
 					
-					if(k < 2)
+					if(k < 1)
 					{
 						e.setCancelled(true);
 						return;
