@@ -497,6 +497,11 @@ public class CommuneController extends Controller implements Configurable, Probe
 		
 		wgbh = new WorldGuardBlockHandler();
 		
+		if(Bukkit.getPluginManager().getPlugin("ASkyBlock") != null)
+		{
+			Phantom.instance().getBlockCheckController().registerBlockHandler(new ASkyblockBlockHandler());
+		}
+		
 		Phantom.instance().getBlockCheckController().registerBlockHandler(wgbh);
 	}
 	

@@ -2,6 +2,7 @@ name: Commune
 main: org.cyberpwn.commune.Commune
 version: ${project.version}
 depend: [Phantom, PlaceholderAPI, Vault]
+softdepend: [ASkyBlock]
 commands: 
   papyrus:
     aliases: [pap, paper]
