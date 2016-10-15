@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cyberpwn</groupId>
 	<artifactId>commune</artifactId>
-	<version>8</version>
+	<version>8.1</version>
 	<name>Commune</name>
 	<description>Community enhancements and more</description>
 	<properties>
@@ -128,7 +128,7 @@
 		<dependency>
 			<groupId>org.cyberpwn</groupId>
 			<artifactId>phantom</artifactId>
-			<version>P8</version>
+			<version>S6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>

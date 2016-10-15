@@ -38,6 +38,9 @@ import org.phantomapi.clust.Comment;
 import org.phantomapi.clust.Configurable;
 import org.phantomapi.clust.DataCluster;
 import org.phantomapi.clust.Keyed;
+import org.phantomapi.command.Command;
+import org.phantomapi.command.CommandFilter;
+import org.phantomapi.command.PhantomCommand;
 import org.phantomapi.command.PhantomSender;
 import org.phantomapi.construct.Controllable;
 import org.phantomapi.construct.Controller;
@@ -49,6 +52,7 @@ import org.phantomapi.lang.GList;
 import org.phantomapi.lang.GMap;
 import org.phantomapi.lang.GTime;
 import org.phantomapi.nest.Nest;
+import org.phantomapi.network.NetworkedServer;
 import org.phantomapi.sync.TaskLater;
 import org.phantomapi.util.C;
 import org.phantomapi.util.F;
@@ -356,6 +360,46 @@ public class CommuneController extends Controller implements Configurable, Probe
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(F.color("&8&l(&c&l!&8&l) &cCannot teleport you |-> " + i.getId()));
 				return;
+			}
+		}
+	}
+	
+	@CommandFilter.PlayerOnly
+	@Command("connect")
+	public void onConnect(PhantomSender sender, PhantomCommand cmd)
+	{
+		if(cmd.getArgs().length == 0)
+		{
+			GList<String> names = new GList<String>();
+			
+			for(NetworkedServer i : Phantom.getBungeeNetwork().getServers())
+			{
+				names.add(i.getName());
+			}
+			
+			sender.sendMessage(C.GRAY + "To: " + C.WHITE + names.toString(", "));
+		}
+		
+		if(cmd.getArgs().length == 1)
+		{
+			String q = cmd.getArgs()[0];
+			
+			for(NetworkedServer i : Phantom.getBungeeNetwork().getServers())
+			{
+				if(q.equalsIgnoreCase(i.getName()))
+				{
+					sender.sendMessage(C.GRAY + "Connecting to " + C.WHITE + i.getName());
+					i.sendPlayer(sender.getPlayer());
+				}
+			}
+			
+			for(NetworkedServer i : Phantom.getBungeeNetwork().getServers())
+			{
+				if(i.getName().toLowerCase().contains(q.toLowerCase()))
+				{
+					sender.sendMessage(C.GRAY + "Connecting to " + C.WHITE + i.getName());
+					i.sendPlayer(sender.getPlayer());
+				}
 			}
 		}
 	}
