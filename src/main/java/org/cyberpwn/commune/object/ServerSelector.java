@@ -102,7 +102,7 @@ public class ServerSelector implements Configurable
 			Integer x = Integer.valueOf(sel[2]);
 			Integer y = Integer.valueOf(sel[3]);
 			String server = sel[4];
-			GList<String> text = F.color(new GList<String>(sel[5].split(",")));
+			GList<String> textf = F.color(new GList<String>(sel[5].split(",")));
 			
 			Element e = new PhantomElement(mb.getMaterial(), mb.getData(), new Slot(x, y), name)
 			{
@@ -117,20 +117,20 @@ public class ServerSelector implements Configurable
 						
 						for(String j : names)
 						{
-							Element ex = new PhantomElement(mb.getMaterial(), mb.getData(), slots.pop(), name + j.toLowerCase().replace(name.toLowerCase(), ""))
+							Element ex = new PhantomElement(mb.getMaterial(), mb.getData(), slots.pop(), name + " " + j.substring(j.length() - 1))
 							{
 								@Override
 								public void onClick(Player p, Click c, Window w)
 								{
 									w.close();
 									new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), j).send();
-									p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + name + j.toLowerCase().replace(name.toLowerCase(), ""));
+									p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + name + " " + j.substring(j.length() - 1));
 								}
 							};
 							
 							GList<String> ttext = new GList<String>();
 							
-							for(String k : text)
+							for(String k : textf)
 							{
 								ttext.add(F.p(p, k.replaceAll("%pc%", "%phantom_server_" + j + "_count%")));
 							}
@@ -139,8 +139,9 @@ public class ServerSelector implements Configurable
 							wx.addElement(ex);
 						}
 						
+						MaterialBlock mbx = W.getMaterialBlock(background);
 						wx.setViewport(3);
-						wx.setBackground(new PhantomElement(mb.getMaterial(), mb.getData(), new Slot(0), ""));
+						wx.setBackground(new PhantomElement(mbx.getMaterial(), mbx.getData(), new Slot(0), ""));
 						wx.open();
 					}
 					
@@ -153,14 +154,14 @@ public class ServerSelector implements Configurable
 				}
 			};
 			
-			GList<String> ttext = new GList<String>();
+			GList<String> ttextf = new GList<String>();
 			
-			for(String j : text)
+			for(String j : textf)
 			{
-				ttext.add(F.p(p, j));
+				ttextf.add(F.p(p, j.replaceAll("%pc%", "Multiple")));
 			}
 			
-			e.setText(ttext);
+			e.setText(ttextf);
 			w.addElement(e);
 		}
 		
