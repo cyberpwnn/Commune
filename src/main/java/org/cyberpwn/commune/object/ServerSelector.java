@@ -11,6 +11,7 @@ import org.phantomapi.clust.DataCluster;
 import org.phantomapi.clust.Keyed;
 import org.phantomapi.gui.Click;
 import org.phantomapi.gui.Element;
+import org.phantomapi.gui.Guis;
 import org.phantomapi.gui.PhantomElement;
 import org.phantomapi.gui.PhantomWindow;
 import org.phantomapi.gui.Slot;
@@ -50,7 +51,7 @@ public class ServerSelector implements Configurable
 	public ServerSelector(String cname)
 	{
 		this.cname = cname;
-		this.cc = new DataCluster();
+		cc = new DataCluster();
 	}
 	
 	@Override
@@ -108,9 +109,46 @@ public class ServerSelector implements Configurable
 				@Override
 				public void onClick(Player p, Click c, Window w)
 				{
-					w.close();
-					new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), server).send();
-					p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + server);
+					if(server.contains("//"))
+					{
+						GList<String> names = new GList<String>(server.split("//"));
+						GList<Slot> slots = Guis.getCentered(names.size(), 2);
+						Window wx = new PhantomWindow(name, p);
+						
+						for(String j : names)
+						{
+							Element ex = new PhantomElement(mb.getMaterial(), mb.getData(), slots.pop(), j)
+							{
+								@Override
+								public void onClick(Player p, Click c, Window w)
+								{
+									w.close();
+									new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), j).send();
+									p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + j);
+								}
+							};
+							
+							GList<String> ttext = new GList<String>();
+							
+							for(String k : text)
+							{
+								ttext.add(F.p(p, k));
+							}
+							
+							ex.setText(ttext);
+							
+							wx.addElement(ex);
+						}
+						
+						wx.open();
+					}
+					
+					else
+					{
+						w.close();
+						new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), server).send();
+						p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + server);
+					}
 				}
 			};
 			
