@@ -33,7 +33,7 @@ public class ASkyblockBlockHandler implements BlockHandler
 		
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			
 		}
 		
 		return true;
