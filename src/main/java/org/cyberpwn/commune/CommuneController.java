@@ -250,12 +250,28 @@ public class CommuneController extends Controller implements Configurable, Probe
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void craftItem(PrepareItemCraftEvent e)
 	{
 		Material itemType = e.getRecipe().getResult().getType();
 		
-		if(itemType == Material.HOPPER && e.getRecipe().getResult().hasItemMeta() && e.getRecipe().getResult().getItemMeta().getDisplayName().equals(C.stripColor(e.getRecipe().getResult().getItemMeta().getDisplayName())))
+		if((itemType.equals(Material.GOLDEN_APPLE) && e.getRecipe().getResult().getData().getData() == 1))
+		{
+			e.getInventory().setResult(new ItemStack(Material.AIR));
+			
+			for(HumanEntity he : e.getViewers())
+			{
+				if(he instanceof Player)
+				{
+					((Player) he).sendMessage(C.RED + "You cannot craft this!");
+				}
+			}
+			
+			return;
+		}
+		
+		if((itemType.equals(Material.HOPPER) || itemType.equals(Material.ANVIL) || itemType.equals(Material.BEACON)) && e.getRecipe().getResult().hasItemMeta() && e.getRecipe().getResult().getItemMeta().getDisplayName().equals(C.stripColor(e.getRecipe().getResult().getItemMeta().getDisplayName())))
 		{
 			e.getInventory().setResult(new ItemStack(Material.AIR));
 			
