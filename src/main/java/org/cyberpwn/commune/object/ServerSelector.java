@@ -117,14 +117,14 @@ public class ServerSelector implements Configurable
 						
 						for(String j : names)
 						{
-							Element ex = new PhantomElement(mb.getMaterial(), mb.getData(), slots.pop(), j)
+							Element ex = new PhantomElement(mb.getMaterial(), mb.getData(), slots.pop(), name + j.toLowerCase().replace(name.toLowerCase(), ""))
 							{
 								@Override
 								public void onClick(Player p, Click c, Window w)
 								{
 									w.close();
 									new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), j).send();
-									p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + j);
+									p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + name + j.toLowerCase().replace(name.toLowerCase(), ""));
 								}
 							};
 							
@@ -132,14 +132,15 @@ public class ServerSelector implements Configurable
 							
 							for(String k : text)
 							{
-								ttext.add(F.p(p, k));
+								ttext.add(F.p(p, k.replaceAll("%pc%", "%phantom_server_" + j + "_count%")));
 							}
 							
 							ex.setText(ttext);
-							
 							wx.addElement(ex);
 						}
 						
+						wx.setViewport(3);
+						wx.setBackground(new PhantomElement(mb.getMaterial(), mb.getData(), new Slot(0), ""));
 						wx.open();
 					}
 					
