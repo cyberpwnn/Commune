@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,6 +21,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -245,6 +247,25 @@ public class CommuneController extends Controller implements Configurable, Probe
 					e.getPlayer().closeInventory();
 				}
 			};
+		}
+	}
+	
+	@EventHandler
+	public void craftItem(PrepareItemCraftEvent e)
+	{
+		Material itemType = e.getRecipe().getResult().getType();
+		
+		if(itemType == Material.HOPPER && e.getRecipe().getResult().hasItemMeta() && e.getRecipe().getResult().getItemMeta().getDisplayName().equals(C.stripColor(e.getRecipe().getResult().getItemMeta().getDisplayName())))
+		{
+			e.getInventory().setResult(new ItemStack(Material.AIR));
+			
+			for(HumanEntity he : e.getViewers())
+			{
+				if(he instanceof Player)
+				{
+					((Player) he).sendMessage(C.RED + "You cannot craft this!");
+				}
+			}
 		}
 	}
 	
