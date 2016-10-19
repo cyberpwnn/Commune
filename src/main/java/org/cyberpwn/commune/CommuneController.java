@@ -41,6 +41,7 @@ import org.phantomapi.clust.Configurable;
 import org.phantomapi.clust.DataCluster;
 import org.phantomapi.clust.Keyed;
 import org.phantomapi.command.Command;
+import org.phantomapi.command.CommandAlias;
 import org.phantomapi.command.CommandFilter;
 import org.phantomapi.command.PhantomCommand;
 import org.phantomapi.command.PhantomSender;
@@ -403,6 +404,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 	
 	@CommandFilter.PlayerOnly
 	@Command("connect")
+	@CommandAlias("go")
 	public void onConnect(PhantomSender sender, PhantomCommand cmd)
 	{
 		if(cmd.getArgs().length == 0)
