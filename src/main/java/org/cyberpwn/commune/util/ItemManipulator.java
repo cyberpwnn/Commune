@@ -2,11 +2,13 @@ package org.cyberpwn.commune.util;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.Potion;
 import org.phantomapi.lang.GMap;
 import org.phantomapi.stack.Stack;
 import org.phantomapi.stack.StackedInventory;
 import org.phantomapi.stack.StackedPlayerInventory;
+import org.phantomapi.sync.TaskLater;
 
 public class ItemManipulator
 {
@@ -106,7 +108,47 @@ public class ItemManipulator
 		
 		inv.thrash();
 		
+		clean(p, max);
+		
 		return true;
+	}
+	
+	public static void clean(Player p, int max)
+	{
+		for(int i = 0; i < p.getInventory().getSize(); i++)
+		{
+			ItemStack is = p.getInventory().getItem(i);
+			
+			if(is != null && is.getType().equals(Material.POTION) && is.getAmount() > max)
+			{
+				int diff = is.getAmount() - max;
+				ItemStack dupe = is.clone();
+				ItemStack initial = is.clone();
+				dupe.setAmount(diff);
+				initial.setAmount(max);
+				p.getInventory().setItem(i, initial);
+				p.getInventory().addItem(dupe);
+			}
+		}
+		
+		for(int i = 0; i < p.getInventory().getSize(); i++)
+		{
+			ItemStack is = p.getInventory().getItem(i);
+			
+			if(is != null && is.getType().equals(Material.POTION) && is.getAmount() > max)
+			{
+				new TaskLater(1)
+				{
+					@Override
+					public void run()
+					{
+						clean(p, max);
+					}
+				};
+				
+				return;
+			}
+		}
 	}
 	
 	public static void fix(Player p, StackedPlayerInventory inv, int slot)

@@ -21,6 +21,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -248,6 +249,21 @@ public class CommuneController extends Controller implements Configurable, Probe
 					e.getPlayer().closeInventory();
 				}
 			};
+		}
+	}
+	
+	@EventHandler
+	public void on(InventoryCloseEvent e)
+	{
+		try
+		{
+			Player p = (Player) e.getPlayer();
+			ItemManipulator.clean(p, maxStack);
+		}
+		
+		catch(Exception ex)
+		{
+			
 		}
 	}
 	
