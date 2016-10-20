@@ -288,7 +288,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 			return;
 		}
 		
-		if((itemType.equals(Material.HOPPER) || itemType.equals(Material.ANVIL) || itemType.equals(Material.BEACON)) && e.getRecipe().getResult().hasItemMeta() && e.getRecipe().getResult().getItemMeta().getDisplayName().equals(C.stripColor(e.getRecipe().getResult().getItemMeta().getDisplayName())))
+		if((itemType.equals(Material.HOPPER) || itemType.equals(Material.ANVIL) || itemType.equals(Material.BEACON)) && !e.getRecipe().getResult().hasItemMeta())
 		{
 			e.getInventory().setResult(new ItemStack(Material.AIR));
 			
