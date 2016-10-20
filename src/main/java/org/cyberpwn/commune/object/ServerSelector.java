@@ -4,21 +4,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.phantomapi.Phantom;
 import org.phantomapi.clust.Comment;
 import org.phantomapi.clust.Configurable;
 import org.phantomapi.clust.DataCluster;
 import org.phantomapi.clust.Keyed;
-import org.phantomapi.gui.Click;
-import org.phantomapi.gui.Element;
-import org.phantomapi.gui.Guis;
-import org.phantomapi.gui.PhantomElement;
-import org.phantomapi.gui.PhantomWindow;
-import org.phantomapi.gui.Slot;
-import org.phantomapi.gui.Window;
 import org.phantomapi.lang.GList;
-import org.phantomapi.network.PluginMessage;
-import org.phantomapi.util.C;
 import org.phantomapi.util.F;
 import org.phantomapi.world.MaterialBlock;
 import org.phantomapi.world.W;
@@ -92,92 +82,6 @@ public class ServerSelector implements Configurable
 	
 	public void launch(Player p)
 	{
-		Window w = new PhantomWindow(F.color(cc.getString("title")), p);
 		
-		for(String i : cc.getStringList("items"))
-		{
-			String[] sel = i.split(";");
-			String name = F.color(sel[0]);
-			MaterialBlock mb = W.getMaterialBlock(sel[1]);
-			Integer x = Integer.valueOf(sel[2]);
-			Integer y = Integer.valueOf(sel[3]);
-			String server = sel[4];
-			GList<String> textf = F.color(new GList<String>(sel[5].split(",")));
-			
-			Element e = new PhantomElement(mb.getMaterial(), mb.getData(), new Slot(x, y), name)
-			{
-				@Override
-				public void onClick(Player p, Click c, Window w)
-				{
-					if(server.contains("//"))
-					{
-						GList<String> names = new GList<String>(server.split("//"));
-						GList<Slot> slots = Guis.getCentered(names.size(), 2);
-						Window wx = new PhantomWindow(name, p);
-						
-						for(String j : names)
-						{
-							Element ex = new PhantomElement(mb.getMaterial(), mb.getData(), slots.pop(), name + " " + j.substring(j.length() - 1))
-							{
-								@Override
-								public void onClick(Player p, Click c, Window w)
-								{
-									w.close();
-									new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), j).send();
-									p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + name + " " + j.substring(j.length() - 1));
-								}
-							};
-							
-							GList<String> ttext = new GList<String>();
-							
-							for(String k : textf)
-							{
-								ttext.add(F.p(p, k.replaceAll("%pc%", "%phantom_server_" + j + "_count%")));
-							}
-							
-							ex.setText(ttext);
-							wx.addElement(ex);
-						}
-						
-						MaterialBlock mbx = W.getMaterialBlock(background);
-						wx.setViewport(3);
-						wx.setBackground(new PhantomElement(mbx.getMaterial(), mbx.getData(), new Slot(0), ""));
-						wx.open();
-					}
-					
-					else
-					{
-						w.close();
-						new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), server).send();
-						p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + server);
-					}
-				}
-			};
-			
-			GList<String> ttextf = new GList<String>();
-			
-			for(String j : textf)
-			{
-				ttextf.add(F.p(p, j.replaceAll("%pc%", "Multiple")));
-			}
-			
-			e.setText(ttextf);
-			w.addElement(e);
-		}
-		
-		try
-		{
-			MaterialBlock mb = W.getMaterialBlock(background);
-			
-			w.setBackground(new PhantomElement(mb.getMaterial(), mb.getData(), new Slot(0), ""));
-		}
-		
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		w.setViewport(viewport);
-		w.open();
 	}
 }
