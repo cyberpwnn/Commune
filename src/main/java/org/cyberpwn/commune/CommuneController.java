@@ -578,7 +578,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 			return;
 		}
 		
-		if(!e.getChangedType().isSolid())
+		if(!e.getChangedType().isSolid() && !e.getBlock().isLiquid())
 		{
 			e.setCancelled(!hasSourceBlock(e.getBlock()));
 		}
