@@ -16,8 +16,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
@@ -901,21 +901,29 @@ public class CommuneController extends Controller implements Configurable, Probe
 	}
 	
 	@EventHandler
-	public void on(CreatureSpawnEvent e)
+	public void on(EntitySpawnEvent e)
 	{
-		if(e.getEntityType().equals(EntityType.WITHER))
+		try
 		{
-			if(!e.getLocation().getWorld().getName().equals(witherworld) && !allowWitherSpawns)
+			if(e.getEntityType().equals(EntityType.WITHER))
 			{
-				Area a = new Area(e.getLocation(), 6);
-				
-				for(Player i : a.getNearbyPlayers())
+				if(!e.getLocation().getWorld().getName().equals(witherworld) && !allowWitherSpawns)
 				{
-					i.sendMessage(F.color("&8&l(&4&l!&8&l) &4Withers can only be spawned in " + witherworld));
+					Area a = new Area(e.getLocation(), 6);
+					
+					for(Player i : a.getNearbyPlayers())
+					{
+						i.sendMessage(F.color("&8&l(&4&l!&8&l) &4Withers can only be spawned in " + witherworld));
+					}
+					
+					e.setCancelled(true);
 				}
-				
-				e.setCancelled(true);
 			}
+		}
+		
+		catch(Exception ex)
+		{
+			
 		}
 	}
 	
