@@ -31,7 +31,8 @@ public class SyncController extends CommandController implements Transmitter
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-
+			
+			@Override
 			public void onResponse(Transmission t)
 			{
 				
@@ -73,7 +74,8 @@ public class SyncController extends CommandController implements Transmitter
 				 * 
 				 */
 				private static final long serialVersionUID = 1L;
-
+				
+				@Override
 				public void onResponse(Transmission t)
 				{
 					
