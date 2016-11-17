@@ -20,7 +20,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -456,15 +455,6 @@ public class CommuneController extends Controller implements Configurable, Probe
 					i.sendPlayer(sender.getPlayer());
 				}
 			}
-		}
-	}
-	
-	@EventHandler
-	public void on(SpawnerSpawnEvent e)
-	{
-		if(!e.getSpawner().getSpawnedType().equals(e.getEntityType()))
-		{
-			e.setCancelled(true);
 		}
 	}
 	
