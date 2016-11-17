@@ -190,24 +190,51 @@ public class ServerSelector implements Configurable
 		{
 			MaterialBlock mb = getMaterial(i);
 			
-			Element e = new PhantomElement(mb.getMaterial(), mb.getData(), getSlot(i), getName(i))
+			PhantomElement e;
+			
+			try
 			{
-				@Override
-				public void onClick(Player p, Click c, Window w)
+				e = new PhantomElement(mb.getMaterial(), mb.getData(), getSlot(i), getName(i))
 				{
-					if(hasMembers(i))
+					@Override
+					public void onClick(Player p, Click c, Window w)
 					{
-						buildWindow(p, getServers(i));
+						if(hasMembers(i))
+						{
+							buildWindow(p, getServers(i));
+						}
+						
+						else
+						{
+							w.close();
+							new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), i).send();
+							p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + getName(i));
+						}
 					}
-					
-					else
+				};
+			}
+			
+			catch(Exception eee)
+			{
+				e = new PhantomElement(Material.BARRIER, (byte) 0, getSlot(i), "FAILED TO GET NAME")
+				{
+					@Override
+					public void onClick(Player p, Click c, Window w)
 					{
-						w.close();
-						new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), i).send();
-						p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + getName(i));
+						if(hasMembers(i))
+						{
+							buildWindow(p, getServers(i));
+						}
+						
+						else
+						{
+							w.close();
+							new PluginMessage(Phantom.instance(), "ConnectOther", p.getName(), i).send();
+							p.sendMessage(C.AQUA + "Warping to realm: " + C.WHITE + "" + C.BOLD + getName(i));
+						}
 					}
-				}
-			};
+				};
+			}
 			
 			if(hasMembers(i))
 			{
