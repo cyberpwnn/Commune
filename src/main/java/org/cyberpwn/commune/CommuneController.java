@@ -85,6 +85,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 	private CombatController combatController;
 	private DropperController dropperController;
 	private WorldGuardBlockHandler wgbh;
+	private ChangelogController clc;
 	
 	private GList<Player> warm;
 	private GMap<Player, Long> ms;
@@ -210,6 +211,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		combatController = new CombatController(this, "combat-tagger");
 		muted = false;
 		warm = new GList<Player>();
+		clc = new ChangelogController(this);
 		new PhantomPlaceholderHook().hook();
 		
 		register(serverSelectionController);
@@ -223,6 +225,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		register(suggestionController);
 		register(combatController);
 		register(dropperController);
+		register(clc);
 		
 		ms = new GMap<Player, Long>();
 		pvpms = new GMap<Player, Long>();
@@ -1031,6 +1034,13 @@ public class CommuneController extends Controller implements Configurable, Probe
 		if(e.getMessage().equalsIgnoreCase("/list"))
 		{
 			e.getPlayer().sendMessage(F.color("&8&l(&f&l!&8&l) &b&lThere is currently &f&l" + F.f(Phantom.instance().onlinePlayers().size()) + " &b&lonline!"));
+			e.setCancelled(true);
+			return;
+		}
+		
+		if(e.getMessage().equalsIgnoreCase("/updates"))
+		{
+			clc.viewUpdates(e.getPlayer());
 			e.setCancelled(true);
 			return;
 		}
