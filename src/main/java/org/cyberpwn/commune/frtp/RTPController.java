@@ -45,16 +45,13 @@ public class RTPController extends Controller implements Configurable
 	@Override
 	public void onStart()
 	{
-		// Load the configuration
 		loadCluster(this);
 	}
 	
 	public boolean isSafe(Player p)
 	{
-		// Check if the player has a cooldown active
 		if(last.containsKey(p))
 		{
-			// Have they waited enough time?
 			return new GTime(M.ms() - last.get(p)).getSeconds() >= cc.getInt("basic.tp-cooldown");
 		}
 		
@@ -78,7 +75,6 @@ public class RTPController extends Controller implements Configurable
 	
 	public boolean isSafe(Location l)
 	{
-		// Checks if this location is mostly safe to teleport to
 		if(l.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
 		{
 			if(l.getBlock().getRelative(BlockFace.UP).getType().equals(Material.STATIONARY_WATER))
@@ -139,15 +135,11 @@ public class RTPController extends Controller implements Configurable
 	
 	public Chunk randomChunk(World w)
 	{
-		// Get a random chunk via Area.random() Based on the world spawn point.
 		return new Area(w.getSpawnLocation(), cc.getInt("worlds." + w.getName() + ".range")).random().getChunk();
 	}
 	
 	public Location randomLocation(Chunk c)
 	{
-		// Get a random location, and make it simulate a fall (to find the
-		// surface block)
-		
 		int k = 250;
 		
 		if(c.getWorld().getName().endsWith("_nether"))
@@ -160,7 +152,6 @@ public class RTPController extends Controller implements Configurable
 	
 	public void findChunk(Player p, final World w, final Callback<Chunk> chunkCallback)
 	{
-		// Start a scheduled task (20tps) and find a chunk
 		new Task(0)
 		{
 			@Override
@@ -168,19 +159,14 @@ public class RTPController extends Controller implements Configurable
 			{
 				long ns = M.ns();
 				
-				// Go as fast as possible, unless we have exceeded the maxms,
-				// then wait for the next tick
 				while(M.ns() - ns < 1000000 * cc.getDouble("basic.max-ms"))
 				{
 					Chunk c = randomChunk(w);
 					
-					// Is the next random chunk safe?
 					if(isSafe(p, c))
 					{
-						// Run the callback
 						chunkCallback.run(c);
 						
-						// Ragequit
 						cancel();
 						return;
 					}
@@ -191,7 +177,6 @@ public class RTPController extends Controller implements Configurable
 	
 	public void findLocation(Player p, final World w, final Callback<Location> locationCallback)
 	{
-		// Find a random location.
 		new Task(0)
 		{
 			@Override
@@ -204,14 +189,11 @@ public class RTPController extends Controller implements Configurable
 					{
 						Location l = randomLocation(get());
 						
-						// Is it safe?
 						if(isSafe(l))
 						{
-							// Load the chunk
 							l.getChunk().load();
 							locationCallback.run(l);
 							
-							// Ragequit
 							cancel();
 							return;
 						}
@@ -223,22 +205,18 @@ public class RTPController extends Controller implements Configurable
 	
 	public void randomTeleport(final Player p)
 	{
-		// Can we teleport in this world?
 		if(!cc.getBoolean("worlds." + p.getWorld().getName() + ".enabled"))
 		{
 			p.sendMessage(ChatColor.RED + "You can't random teleport in this world.");
 			return;
 		}
 		
-		// Check if the player can teleport yet
 		if(isSafe(p))
 		{
 			p.sendMessage(F.color(cc.getString("basic.message.searching")));
 			
-			// Set the new cooldown time.
 			last.put(p, M.ms());
 			
-			// Find a location, then do the following when it finishes
 			findLocation(p, p.getWorld(), new Callback<Location>()
 			{
 				@Override
@@ -252,10 +230,8 @@ public class RTPController extends Controller implements Configurable
 		
 		else
 		{
-			// Cooldown active
 			String base = cc.getString("basic.message.cooldown");
 			
-			// Parameter saftey
 			if(cc.getString("basic.message.cooldown").contains("%s%"))
 			{
 				base = base.replaceAll("%s%", String.valueOf(cc.getInt("basic.tp-cooldown") - new GTime(M.ms() - last.get(p)).getSeconds()));
@@ -277,7 +253,6 @@ public class RTPController extends Controller implements Configurable
 		}
 	}
 	
-	// Define config
 	@Override
 	public void onNewConfig()
 	{
@@ -297,7 +272,7 @@ public class RTPController extends Controller implements Configurable
 	@Override
 	public void onReadConfig()
 	{
-		// Dynamic
+		
 	}
 	
 	@Override
