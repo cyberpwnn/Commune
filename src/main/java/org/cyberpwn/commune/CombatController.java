@@ -50,8 +50,8 @@ public class CombatController extends ConfigurableController
 	{
 		super(parentController, codeName);
 		
-		this.stopping = false;
-		this.tags = new GMap<Player, Integer>();
+		stopping = false;
+		tags = new GMap<Player, Integer>();
 	}
 	
 	@Override
@@ -101,7 +101,7 @@ public class CombatController extends ConfigurableController
 			return;
 		}
 		
-		((Essentials)Bukkit.getPluginManager().getPlugin("Essentials")).getUser(p).setGodModeEnabled(false);
+		((Essentials) Bukkit.getPluginManager().getPlugin("Essentials")).getUser(p).setGodModeEnabled(false);
 		DisguiseAPI.undisguiseToAll(p);
 		p.setFlying(false);
 		p.setAllowFlight(false);
@@ -237,12 +237,13 @@ public class CombatController extends ConfigurableController
 			e.getPlayer().getInventory().setBoots(new ItemStack(Material.AIR));
 			e.getPlayer().getInventory().setLeggings(new ItemStack(Material.AIR));
 			int xp = SetExpFix.getTotalExperience(e.getPlayer());
+			((ExperienceOrb) e.getPlayer().getWorld().spawn(e.getPlayer().getLocation(), ExperienceOrb.class)).setExperience(xp);
+			SetExpFix.setTotalExperience(e.getPlayer(), 0);
 			
 			for(ItemStack i : isx)
 			{
 				try
 				{
-					((ExperienceOrb) e.getPlayer().getWorld().spawn(e.getPlayer().getLocation(), ExperienceOrb.class)).setExperience(xp);
 					e.getPlayer().getLocation().getWorld().dropItemNaturally(e.getPlayer().getLocation(), i);
 				}
 				
