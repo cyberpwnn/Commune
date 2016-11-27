@@ -13,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -54,7 +52,6 @@ import org.phantomapi.event.PlayerMoveBlockEvent;
 import org.phantomapi.lang.GList;
 import org.phantomapi.lang.GMap;
 import org.phantomapi.lang.GTime;
-import org.phantomapi.nest.Nest;
 import org.phantomapi.network.NetworkedServer;
 import org.phantomapi.sync.TaskLater;
 import org.phantomapi.util.C;
@@ -340,41 +337,6 @@ public class CommuneController extends Controller implements Configurable, Probe
 		catch(Exception ex)
 		{
 			
-		}
-	}
-	
-	@EventHandler
-	public void on(BlockPlaceEvent e)
-	{
-		if(e.getBlock().getType().equals(Material.MOB_SPAWNER))
-		{
-			if(!handleSpawners)
-			{
-				return;
-			}
-			
-			Nest.getBlock(e.getBlock()).set("s", true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void on(BlockBreakEvent e)
-	{
-		if(!handleSpawners)
-		{
-			return;
-		}
-		
-		if(e.getBlock().getType().equals(Material.MOB_SPAWNER))
-		{
-			if(!Nest.getBlock(e.getBlock()).contains("s"))
-			{
-				e.setCancelled(true);
-				e.getBlock().breakNaturally();
-				e.getPlayer().sendMessage(F.color("&8&l(&4&l!&8&l) &4Natural Mob Spawners have been disabled!"));
-			}
-			
-			Nest.getBlock(e.getBlock()).remove("s");
 		}
 	}
 	
