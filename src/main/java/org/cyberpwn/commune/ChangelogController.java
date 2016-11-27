@@ -9,6 +9,8 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.cyberpwn.changelog.LogElement;
 import org.cyberpwn.changelog.LogPackage;
 import org.phantomapi.async.A;
@@ -29,6 +31,7 @@ import org.phantomapi.lang.GMap;
 import org.phantomapi.lang.GSound;
 import org.phantomapi.lang.Title;
 import org.phantomapi.sync.S;
+import org.phantomapi.sync.TaskLater;
 import org.phantomapi.text.ColoredString;
 import org.phantomapi.text.RTEX;
 import org.phantomapi.text.RTX;
@@ -255,6 +258,19 @@ public class ChangelogController extends ConfigurableController implements TagPr
 						}
 					}
 				};
+			}
+		};
+	}
+	
+	@EventHandler
+	public void on(PlayerJoinEvent e)
+	{
+		new TaskLater(30)
+		{
+			@Override
+			public void run()
+			{
+				notifyPlayer(e.getPlayer());
 			}
 		};
 	}
