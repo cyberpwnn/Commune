@@ -234,30 +234,46 @@ public class ChangelogController extends ConfigurableController implements TagPr
 			@Override
 			public void async()
 			{
-				elements.add(log.getLogsFor(last));
-				
-				new S()
+				try
 				{
-					@Override
-					public void sync()
+					elements.add(log.getLogsFor(last));
+					
+					new S()
 					{
-						if(!elements.isEmpty())
+						@Override
+						public void sync()
 						{
-							elemented.put(p, elements);
+							try
+							{
+								if(!elements.isEmpty())
+								{
+									elemented.put(p, elements);
+									
+									RTX rt = new RTX();
+									RTEX rte = new RTEX(new ColoredString(C.AQUA, "Click to view this update."));
+									rt.addText("Glacial Realms updated " + log.lastUpdateFormatted(), C.GRAY);
+									rt.addTextFireHoverCommand(" View Update Log", rte, "/updates", C.AQUA);
+									rt.tellRawTo(p);
+									Notification n = new Notification();
+									Title t = new Title(C.GOLD + "" + SYM.SYMBOL_VOLTAGE + "    " + SYM.SYMBOL_VOLTAGE + "    " + SYM.SYMBOL_VOLTAGE, C.AQUA + "Updates added " + log.lastUpdateFormatted(), C.YELLOW + "Use /updates to view them!", 5, 40, 50);
+									n.setTitle(t);
+									n.setAudible(new GSound(Sound.LEVEL_UP, 1f, 1.7f));
+									n.play(p);
+								}
+							}
 							
-							RTX rt = new RTX();
-							RTEX rte = new RTEX(new ColoredString(C.AQUA, "Click to view this update."));
-							rt.addText("Glacial Realms updated " + log.lastUpdateFormatted(), C.GRAY);
-							rt.addTextFireHoverCommand(" View Update Log", rte, "/updates", C.AQUA);
-							rt.tellRawTo(p);
-							Notification n = new Notification();
-							Title t = new Title(C.GOLD + "" + SYM.SYMBOL_VOLTAGE + "    " + SYM.SYMBOL_VOLTAGE + "    " + SYM.SYMBOL_VOLTAGE, C.AQUA + "Updates added " + log.lastUpdateFormatted(), C.YELLOW + "Use /updates to view them!", 5, 40, 50);
-							n.setTitle(t);
-							n.setAudible(new GSound(Sound.LEVEL_UP, 1f, 1.7f));
-							n.play(p);
+							catch(Exception e)
+							{
+								
+							}
 						}
-					}
-				};
+					};
+				}
+				
+				catch(Exception e)
+				{
+					
+				}
 			}
 		};
 	}
