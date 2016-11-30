@@ -369,6 +369,11 @@ public class CommuneController extends Controller implements Configurable, Probe
 			}
 		}
 		
+		if(e.getCause().equals(TeleportCause.UNKNOWN))
+		{
+			return;
+		}
+		
 		ApplicableRegionSet rm = WorldGuardPlugin.inst().getRegionManager(e.getTo().getWorld()).getApplicableRegions(new com.sk89q.worldedit.Vector(e.getTo().getX(), e.getTo().getY(), e.getTo().getZ()));
 		
 		for(ProtectedRegion i : rm.getRegions())
