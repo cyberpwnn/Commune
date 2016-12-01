@@ -58,8 +58,12 @@ public class CombatController extends ConfigurableController
 		super(parentController, codeName);
 		
 		stopping = false;
-		s = SilkUtil.hookIntoSilkSpanwers();
 		tags = new GMap<Player, Integer>();
+		
+		if(Bukkit.getPluginManager().isPluginEnabled("SilkSpawners"))
+		{
+			s = SilkUtil.hookIntoSilkSpanwers();
+		}
 	}
 	
 	@Override
@@ -194,37 +198,46 @@ public class CombatController extends ConfigurableController
 	@SuppressWarnings("deprecation")
 	public ItemStack createSpawner(short id, int amt)
 	{
-		return s.newSpawnerItem(id, C.YELLOW + s.getCreatureName(id) + " " + C.WHITE + "Spawner", amt);
+		if(Bukkit.getPluginManager().isPluginEnabled("SilkSpawners"))
+		{
+			return s.newSpawnerItem(id, C.YELLOW + s.getCreatureName(id) + " " + C.WHITE + "Spawner", amt);
+			
+		}
+		
+		return null;
 	}
 	
 	@EventHandler
 	public void on(BlockPlaceEvent e)
 	{
-		try
+		if(Bukkit.getPluginManager().isPluginEnabled("SilkSpawners"))
 		{
-			if(e.getItemInHand().getType().equals(Material.MOB_SPAWNER))
+			try
 			{
-				String name = e.getItemInHand().getItemMeta().getDisplayName();
-				GList<String> n = new GList<String>(C.stripColor(name).toUpperCase().split(" "));
-				n.remove(n.last());
-				String k = n.toString("_");
-				EntityType et = EntityType.valueOf(k);
-				
-				new TaskLater()
+				if(e.getItemInHand().getType().equals(Material.MOB_SPAWNER))
 				{
-					@Override
-					public void run()
+					String name = e.getItemInHand().getItemMeta().getDisplayName();
+					GList<String> n = new GList<String>(C.stripColor(name).toUpperCase().split(" "));
+					n.remove(n.last());
+					String k = n.toString("_");
+					EntityType et = EntityType.valueOf(k);
+					
+					new TaskLater()
 					{
-						PhantomSpawner ps = new PhantomSpawner(e.getBlock());
-						ps.setType(et);
-					}
-				};
+						@Override
+						public void run()
+						{
+							PhantomSpawner ps = new PhantomSpawner(e.getBlock());
+							ps.setType(et);
+						}
+					};
+				}
 			}
-		}
-		
-		catch(Exception ex)
-		{
 			
+			catch(Exception ex)
+			{
+				
+			}
 		}
 	}
 	

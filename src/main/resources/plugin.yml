@@ -2,7 +2,7 @@ name: Commune
 main: org.cyberpwn.commune.Commune
 version: ${project.version}
 depend: [Phantom, PlaceholderAPI, Vault]
-softdepend: [ASkyBlock]
+softdepend: [ASkyBlock, SilkSpawners]
 commands: 
   papyrus:
     aliases: [pap, paper]
