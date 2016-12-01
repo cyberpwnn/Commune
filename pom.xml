@@ -128,7 +128,7 @@
 		<dependency>
 			<groupId>org.cyberpwn</groupId>
 			<artifactId>phantom</artifactId>
-			<version>K</version>
+			<version>K9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
@@ -156,6 +156,12 @@
 			<groupId>org.cyberpwn</groupId>
 			<artifactId>essentials</artifactId>
 			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cyberpwn</groupId>
+			<artifactId>silkspawners</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q</groupId>

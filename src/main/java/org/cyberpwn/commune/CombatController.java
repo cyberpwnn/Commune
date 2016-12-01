@@ -2,10 +2,12 @@ package org.cyberpwn.commune;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -22,10 +24,13 @@ import org.phantomapi.event.PlayerDamagePlayerEvent;
 import org.phantomapi.lang.GList;
 import org.phantomapi.lang.GMap;
 import org.phantomapi.nms.NMSX;
+import org.phantomapi.spawner.PhantomSpawner;
+import org.phantomapi.sync.TaskLater;
 import org.phantomapi.util.C;
 import org.phantomapi.util.F;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.craftbukkit.SetExpFix;
+import de.dustplanet.util.SilkUtil;
 import me.libraryaddict.disguise.DisguiseAPI;
 
 @Ticked(0)
@@ -46,11 +51,14 @@ public class CombatController extends ConfigurableController
 	private boolean stopping;
 	private GMap<Player, Integer> tags;
 	
+	private SilkUtil s;
+	
 	public CombatController(Controllable parentController, String codeName)
 	{
 		super(parentController, codeName);
 		
 		stopping = false;
+		s = SilkUtil.hookIntoSilkSpanwers();
 		tags = new GMap<Player, Integer>();
 	}
 	
@@ -181,6 +189,43 @@ public class CombatController extends ConfigurableController
 		
 		tag(e.getPlayer());
 		tag(e.getDamager());
+	}
+	
+	@SuppressWarnings("deprecation")
+	public ItemStack createSpawner(short id, int amt)
+	{
+		return s.newSpawnerItem(id, C.YELLOW + s.getCreatureName(id) + " " + C.WHITE + "Spawner", amt);
+	}
+	
+	@EventHandler
+	public void on(BlockPlaceEvent e)
+	{
+		try
+		{
+			if(e.getItemInHand().getType().equals(Material.MOB_SPAWNER))
+			{
+				String name = e.getItemInHand().getItemMeta().getDisplayName();
+				GList<String> n = new GList<String>(C.stripColor(name).toUpperCase().split(" "));
+				n.remove(n.last());
+				String k = n.toString("_");
+				EntityType et = EntityType.valueOf(k);
+				
+				new TaskLater()
+				{
+					@Override
+					public void run()
+					{
+						PhantomSpawner ps = new PhantomSpawner(e.getBlock());
+						ps.setType(et);
+					}
+				};
+			}
+		}
+		
+		catch(Exception ex)
+		{
+			
+		}
 	}
 	
 	@EventHandler

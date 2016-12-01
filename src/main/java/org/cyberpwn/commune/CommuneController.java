@@ -1602,4 +1602,49 @@ public class CommuneController extends Controller implements Configurable, Probe
 	{
 		return probeSet;
 	}
+	
+	public SuggestionController getSuggestionController()
+	{
+		return suggestionController;
+	}
+	
+	public CombatController getCombatController()
+	{
+		return combatController;
+	}
+	
+	public DropperController getDropperController()
+	{
+		return dropperController;
+	}
+	
+	public WorldGuardBlockHandler getWgbh()
+	{
+		return wgbh;
+	}
+	
+	public ChangelogController getClc()
+	{
+		return clc;
+	}
+	
+	public GList<Player> getWarm()
+	{
+		return warm;
+	}
+	
+	public boolean isVil()
+	{
+		return vil;
+	}
+	
+	public boolean isHandleSpawners()
+	{
+		return handleSpawners;
+	}
+	
+	public GList<String> getDenyRegion()
+	{
+		return denyRegion;
+	}
 }

@@ -8,3 +8,5 @@ commands:
     aliases: [pap, paper]
   frtp:
     aliases: [wild, rtp, randomtp]
+  ssx:
+    aliases: [ssf, fss]
