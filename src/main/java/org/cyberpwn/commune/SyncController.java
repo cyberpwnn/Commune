@@ -2,6 +2,7 @@ package org.cyberpwn.commune;
 
 import java.io.IOException;
 import org.bukkit.Bukkit;
+import org.bukkit.event.server.ServerCommandEvent;
 import org.phantomapi.Phantom;
 import org.phantomapi.command.CommandController;
 import org.phantomapi.command.CommandFilter.Permission;
@@ -112,6 +113,7 @@ public class SyncController extends CommandController implements Transmitter
 			{
 				last = sender;
 				broadcast(new GList<String>(command.getArgs()).toString(" "));
+				callEvent(new ServerCommandEvent(Bukkit.getConsoleSender(), new GList<String>(command.getArgs()).toString(" ")));
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), new GList<String>(command.getArgs()).toString(" "));
 				
 				if(sender.isPlayer())
