@@ -31,7 +31,6 @@ import org.phantomapi.util.F;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.craftbukkit.SetExpFix;
 import de.dustplanet.util.SilkUtil;
-import me.libraryaddict.disguise.DisguiseAPI;
 
 @Ticked(0)
 public class CombatController extends ConfigurableController
@@ -114,7 +113,6 @@ public class CombatController extends ConfigurableController
 		}
 		
 		((Essentials) Bukkit.getPluginManager().getPlugin("Essentials")).getUser(p).setGodModeEnabled(false);
-		DisguiseAPI.undisguiseToAll(p);
 		p.setFlying(false);
 		p.setAllowFlight(false);
 		tags.put(p, tagSeconds * 20);

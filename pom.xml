@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cyberpwn</groupId>
 	<artifactId>commune</artifactId>
-	<version>9.8</version>
+	<version>9.9</version>
 	<name>Commune</name>
 	<description>Community enhancements and more</description>
 	<properties>
@@ -146,11 +146,6 @@
 			<artifactId>VaultAPI</artifactId>
 			<version>1.6</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>LibsDisguises</groupId>
-			<artifactId>LibsDisguises</artifactId>
-			<version>9.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.cyberpwn</groupId>
