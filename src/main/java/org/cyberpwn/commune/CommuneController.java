@@ -46,6 +46,7 @@ import org.phantomapi.command.PhantomSender;
 import org.phantomapi.construct.Controllable;
 import org.phantomapi.construct.Controller;
 import org.phantomapi.construct.ControllerMessage;
+import org.phantomapi.construct.Ticked;
 import org.phantomapi.event.PlayerArrowDamagePlayerEvent;
 import org.phantomapi.event.PlayerDamagePlayerEvent;
 import org.phantomapi.event.PlayerMoveBlockEvent;
@@ -59,6 +60,7 @@ import org.phantomapi.util.F;
 import org.phantomapi.util.M;
 import org.phantomapi.util.Players;
 import org.phantomapi.util.Probe;
+import org.phantomapi.vfx.ParticleEffect;
 import org.phantomapi.world.Area;
 import org.phantomapi.world.MaterialBlock;
 import org.phantomapi.world.W;
@@ -67,6 +69,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
+@Ticked(0)
 public class CommuneController extends Controller implements Configurable, Probe
 {
 	private DataCluster cc;
@@ -116,6 +119,10 @@ public class CommuneController extends Controller implements Configurable, Probe
 	@Comment("Kit autostacking features")
 	@Keyed("features.kit-stack-mechanics")
 	public boolean kitStack = true;
+	
+	@Comment("Make snow")
+	@Keyed("features.snowing")
+	public boolean snowing = false;
 	
 	@Comment("Purge Connection Messages (Join/quit)")
 	@Keyed("interface.purge-connection-messages")
@@ -248,6 +255,23 @@ public class CommuneController extends Controller implements Configurable, Probe
 					e.getPlayer().closeInventory();
 				}
 			};
+		}
+	}
+	
+	@Override
+	public void onTick()
+	{
+		for(Player i : onlinePlayers())
+		{
+			Area a = new Area(i.getLocation().clone().add(0, 9, 0), 4);
+			
+			double y = i.getLocation().getY() / 256;
+			
+			for(int j = 0; j < y; j++)
+			{
+				Location l = a.random();
+				ParticleEffect.SNOWBALL.display(0f, 4, l, i);
+			}
 		}
 	}
 	
