@@ -136,22 +136,22 @@ public class LogElement
 	{
 		if(line.startsWith("w "))
 		{
-			return line.replaceAll("w ", C.GOLD + "" + SYM.SYMBOL_WARNING + " " + C.GOLD + C.BOLD);
+			return line.replaceFirst("w ", C.GOLD + "" + SYM.SYMBOL_WARNING + " " + C.GOLD + C.BOLD);
 		}
 		
 		else if(line.startsWith("x "))
 		{
-			return line.replaceAll("x ", C.RED + "" + SYM.SYMBOL_VOLTAGE + " ");
+			return line.replaceFirst("x ", C.RED + "" + SYM.SYMBOL_VOLTAGE + " ");
 		}
 		
 		else if(line.startsWith("a "))
 		{
-			return line.replaceAll("a ", C.GREEN + "" + SYM.SYMBOL_PENCIL + " ");
+			return line.replaceFirst("a ", C.GREEN + "" + SYM.SYMBOL_PENCIL + " ");
 		}
 		
 		else if(line.startsWith("c "))
 		{
-			return line.replaceAll("c ", C.YELLOW + "" + SYM.SYMBOL_GEAR + " ");
+			return line.replaceFirst("c ", C.YELLOW + "" + SYM.SYMBOL_GEAR + " ");
 		}
 		
 		else
