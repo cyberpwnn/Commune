@@ -1268,7 +1268,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 	
 	public void setHubController(HubController hubController)
 	{
-		hubController = hubController;
+		this.hubController = hubController;
 	}
 	
 	public FactionController getFactionController()
