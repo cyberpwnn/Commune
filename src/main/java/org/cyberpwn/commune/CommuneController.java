@@ -4,6 +4,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -52,8 +53,10 @@ import org.phantomapi.event.PlayerDamagePlayerEvent;
 import org.phantomapi.event.PlayerMoveBlockEvent;
 import org.phantomapi.lang.GList;
 import org.phantomapi.lang.GMap;
+import org.phantomapi.lang.GSound;
 import org.phantomapi.lang.GTime;
 import org.phantomapi.network.NetworkedServer;
+import org.phantomapi.nms.NMSX;
 import org.phantomapi.sync.TaskLater;
 import org.phantomapi.util.C;
 import org.phantomapi.util.F;
@@ -261,6 +264,8 @@ public class CommuneController extends Controller implements Configurable, Probe
 	@Override
 	public void onTick()
 	{
+		checkTimes();
+		
 		for(Player i : onlinePlayers())
 		{
 			Area a = new Area(i.getLocation().clone().add(0, 9, 0), 4);
@@ -509,6 +514,35 @@ public class CommuneController extends Controller implements Configurable, Probe
 		}
 		
 		return message;
+	}
+	
+	public void checkTimes()
+	{
+		for(String i : itemLimits)
+		{
+			MaterialBlock mb = W.getMaterialBlock(i.split(";")[0]);
+			Integer seconds = Integer.valueOf(i.split(";")[1]);
+			
+			for(Player j : onlinePlayers())
+			{
+				UUID u = j.getUniqueId();
+				
+				if(itimes.containsKey(u))
+				{
+					if(M.ms() - itimes.get(u).get(i.split(";")[0]) < seconds * 1000)
+					{
+						double left = (seconds * 1000 - (M.ms() - itimes.get(u).get(i.split(";")[0])));
+						
+						if(left < 100)
+						{
+							new GSound(Sound.AMBIENCE_CAVE, 1f, 1.6f).play(j);
+							NMSX.sendActionBar(j, C.AQUA + "You can use " + mb.getMaterial().toString().toLowerCase().replaceAll("_", " ") + "s again!");
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	
 	@EventHandler
