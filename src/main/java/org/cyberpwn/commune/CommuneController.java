@@ -74,7 +74,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 {
 	private DataCluster cc;
 	private ServerSelectionController serverSelectionController;
-	private HubController HubController;
+	private HubController hubController;
 	private FactionController factionController;
 	private SyncController syncController;
 	private StackController stackController;
@@ -202,7 +202,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		cc = new DataCluster();
 		
 		serverSelectionController = new ServerSelectionController(this);
-		HubController = new HubController(this);
+		hubController = new HubController(this);
 		factionController = new FactionController(this);
 		syncController = new SyncController(this);
 		stackController = new StackController(this);
@@ -220,7 +220,7 @@ public class CommuneController extends Controller implements Configurable, Probe
 		
 		register(serverSelectionController);
 		register(stackController);
-		register(HubController);
+		register(hubController);
 		register(factionController);
 		register(syncController);
 		register(slateController);
@@ -1263,12 +1263,12 @@ public class CommuneController extends Controller implements Configurable, Probe
 	
 	public HubController getHubController()
 	{
-		return HubController;
+		return hubController;
 	}
 	
 	public void setHubController(HubController hubController)
 	{
-		HubController = hubController;
+		hubController = hubController;
 	}
 	
 	public FactionController getFactionController()
