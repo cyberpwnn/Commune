@@ -700,6 +700,21 @@ public class CommuneController extends Controller implements Configurable, Probe
 	@EventHandler
 	public void on(PlayerItemConsumeEvent e)
 	{
+		if(e.getItem().getType().equals(Material.POTION))
+		{
+			new TaskLater()
+			{
+				@Override
+				public void run()
+				{
+					if(e.getPlayer().getItemInHand() != null && e.getPlayer().getItemInHand().getType().equals(Material.GLASS_BOTTLE))
+					{
+						e.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+					}
+				}
+			};
+		}
+		
 		for(String i : consumeLimits)
 		{
 			MaterialBlock mb = W.getMaterialBlock(i.split(";")[0]);
