@@ -37,6 +37,7 @@ public class FactionController extends Controller
 		
 	}
 	
+	@Override
 	public void onTick()
 	{
 		
@@ -68,13 +69,6 @@ public class FactionController extends Controller
 				if(p.isFlying())
 				{
 					p.sendMessage(C.RED + "Please stop flying to use that");
-					e.setCancelled(true);
-					return;
-				}
-				
-				if(!p.getLocation().add(0, -1, 0).getBlock().getType().isSolid() && !p.getLocation().add(0, -1, 0).getBlock().isLiquid())
-				{
-					p.sendMessage(C.RED + "Please stand on solid ground to use that");
 					e.setCancelled(true);
 					return;
 				}
